@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
@@ -57,7 +59,13 @@ class MainActivity : AppCompatActivity() {
 
                     val filmeRecente = resposta.body()
                     val nomeImagem = filmeRecente?.poster_path
-                    val urlImagem = "https://image.tmdb.org/t/p/w500$nomeImagem"
+                    val url = RetrofitService.BASE_URL_IMAGEM + "w780" + nomeImagem
+
+                    withContext(Dispatchers.Main) {
+                        Picasso.get()
+                            .load(url)
+                            .into(binding.imgCapa)
+                    }
 
                 } else {
                     exibirMensagem("Problema ao fazer a requisição CÓDIGO: ${resposta.code()}")

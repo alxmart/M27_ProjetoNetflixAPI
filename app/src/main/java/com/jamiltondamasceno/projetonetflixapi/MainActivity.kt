@@ -8,6 +8,7 @@ import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "info_filme"
+
     private val binding by lazy {
         ActivityMainBinding.inflate( layoutInflater )
     }

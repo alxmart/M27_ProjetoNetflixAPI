@@ -59,11 +59,15 @@ class MainActivity : AppCompatActivity() {
 
                     val filmeRecente = resposta.body()
                     val nomeImagem = filmeRecente?.poster_path
+                    val titulo = filmeRecente?.title
                     val url = RetrofitService.BASE_URL_IMAGEM + "w780" + nomeImagem
 
                     withContext(Dispatchers.Main) {
+                        /*val texto = "Título: $titulo URL: $url"
+                        binding.textPopulares.text = texto*/
                         Picasso.get()
                             .load(url)
+                            .error(R.drawable.capa) //Se não recuperar imagem de filme recente
                             .into(binding.imgCapa)
                     }
 
@@ -74,8 +78,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 exibirMensagem("Não foi possível fazer a requisição")
             }
-
-
         }
     }
 
@@ -92,9 +94,5 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         jobFilmeRecente?.cancel()
     }
-
-
-}
-
 
 }

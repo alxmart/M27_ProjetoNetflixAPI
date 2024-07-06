@@ -1,5 +1,5 @@
 package com.jamiltondamasceno.projetonetflixapi.adapter
-
+//package com.luizafmartinez.projetonetflixapi.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jamiltondamasceno.projetonetflixapi.databinding.ItemFilmeBinding

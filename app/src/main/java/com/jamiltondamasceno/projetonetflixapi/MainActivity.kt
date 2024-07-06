@@ -1,11 +1,13 @@
 package com.jamiltondamasceno.projetonetflixapi
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
+import com.jamiltondamasceno.projetonetflixapi.model.FilmeResposta
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,16 +29,55 @@ class MainActivity : AppCompatActivity() {
     }
 
     var jobFilmeRecente: Job? = null
+    var jobFilmesPopulares: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
     }
 
     override fun onStart() {
         super.onStart()
         recuperarFilmeRecente()
+        recuperarFilmesPopulares()
+    }
+
+    private fun recuperarFilmesPopulares() {
+
+        jobFilmesPopulares = CoroutineScope(Dispatchers.IO).launch {
+
+            var resposta: Response<FilmeResposta>? = null
+
+            try {
+                resposta = filmeAPI.recuperarFilmespopulares()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                exibirMensagem("Erro ao fazer a requisição")
+            }
+
+            if (resposta != null) {
+
+                if (resposta.isSuccessful) {
+
+                    val filmeResposta = resposta.body()
+                    val listaFilmes = filmeResposta?.filmes
+
+                    if (listaFilmes != null && listaFilmes.isNotEmpty()) {
+
+                        Log.i("filmes_api", "Lista filmes:")
+
+                        listaFilmes.forEach { filme ->
+                            Log.i("filmes_api", "Título: ${filme.title}")
+                        }
+                    }
+                } else {
+                    exibirMensagem("Problema ao fazer a requisição CÓDIGO: ${resposta.code()}")
+                }
+
+            } else {
+                exibirMensagem("Não foi possível fazer a requisição")
+            }
+        }
     }
 
     private fun recuperarFilmeRecente() {
@@ -93,6 +134,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         jobFilmeRecente?.cancel()
+        jobFilmesPopulares?.cancel()
     }
 
 }

@@ -2,6 +2,7 @@ package com.jamiltondamasceno.projetonetflixapi.api
 
 import com.jamiltondamasceno.projetonetflixapi.model.Filme
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
+import com.jamiltondamasceno.projetonetflixapi.model.FilmeResposta
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -11,6 +12,6 @@ interface FilmeAPI {
     suspend fun recuperarFilmeRecente(): Response<FilmeRecente>
 
     @GET("movie/popular?api_key=${RetrofitService.APIGO}")
-    suspend fun recuperarFilmespopulares(): Response<FilmeRecente>
+    suspend fun recuperarFilmespopulares(): Response<FilmeResposta>
 
 }

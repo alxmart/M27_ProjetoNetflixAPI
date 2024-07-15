@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
@@ -31,10 +33,28 @@ class MainActivity : AppCompatActivity() {
     var jobFilmeRecente: Job? = null
     var jobFilmesPopulares: Job? = null
 
+    private lateinit var filmeAdapter: FilmeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        inicializarViews()
     }
+
+    private fun inicializarViews() {
+
+        filmeAdapter = FilmeAdapter()
+
+        binding.rvPopulares.adapter = filmeAdapter
+
+        binding.rvPopulares.layoutManager = LinearLayoutManager(
+        this,
+        LinearLayoutManager.HORIZONTAL,
+        false
+        )
+
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -64,11 +84,15 @@ class MainActivity : AppCompatActivity() {
 
                     if (listaFilmes != null && listaFilmes.isNotEmpty()) {
 
-                        Log.i("filmes_api", "Lista filmes:")
+                        withContext(Dispatchers.Main) {
+                            filmeAdapter.adicionarLista( listaFilmes )
+                        }
 
+
+                        /*Log.i("filmes_api", "Lista filmes:")
                         listaFilmes.forEach { filme ->
                             Log.i("filmes_api", "Título: ${filme.title}")
-                        }
+                        }*/
                     }
                 } else {
                     exibirMensagem("Problema ao fazer a requisição CÓDIGO: ${resposta.code()}")

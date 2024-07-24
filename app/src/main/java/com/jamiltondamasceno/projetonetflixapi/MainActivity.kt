@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     private fun inicializarViews() {
 
         filmeAdapter = FilmeAdapter()
-
         binding.rvPopulares.adapter = filmeAdapter
 
         binding.rvPopulares.layoutManager = LinearLayoutManager(

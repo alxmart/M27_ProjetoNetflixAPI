@@ -53,12 +53,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvPopulares.layoutManager = LinearLayoutManager(
         this,
-        LinearLayoutManager.HORIZONTAL,
+        LinearLayoutManager.VERTICAL,
         false
         )
 
     }
-
 
     override fun onStart() {
         super.onStart()

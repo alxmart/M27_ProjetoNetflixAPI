@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
@@ -57,7 +59,24 @@ class MainActivity : AppCompatActivity() {
         false
         )
 
+        //binding.rvPopulares.addOnScrollListener( ScrollCustomizado() )
+        // object =>  Classe Anônima", herda de OnScrollListener
+        binding.rvPopulares.addOnScrollListener(object : OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
+            //super.onScrolled(recyclerView, dx, dy)
+            }
+            
+        } )
+        
     }
+
+    /*class ScrollCustomizado : OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {            
+        }        
+    }*/
+
 
     override fun onStart() {
         super.onStart()

@@ -66,10 +66,10 @@ class MainActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
-                if (dy > 0) { // Descendo
-                    binding.fabAdicionar.hide()
-                } else { // Subindo
-                    binding.fabAdicionar.show()
+                if (dy > 0) { //
+                    //binding.fabAdicionar.hide()
+                } else {
+                    //binding.fabAdicionar.show()
                 }
 
 

@@ -64,8 +64,15 @@ class MainActivity : AppCompatActivity() {
         binding.rvPopulares.addOnScrollListener(object : OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
                 Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
-            //super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) { // Descendo
+                    binding.fabAdicionar.hide()
+                } else { // Subindo
+                    binding.fabAdicionar.show()
+                }
+
+
             }
             
         } )

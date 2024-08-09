@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     var jobFilmeRecente: Job? = null
     var jobFilmesPopulares: Job? = null
+    var layoutManager: RecyclerView.LayoutManager? = null
 
     private lateinit var filmeAdapter: FilmeAdapter
 
@@ -65,12 +66,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
+                /*Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
                 if (dy > 0) { //
-                    //binding.fabAdicionar.hide()
+                    binding.fabAdicionar.hide()
                 } else {
-                    //binding.fabAdicionar.show()
-                }
+                    binding.fabAdicionar.show()
+                }*/
 
 
             }

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     var jobFilmeRecente: Job? = null
     var jobFilmesPopulares: Job? = null
-    var layoutManager: RecyclerView.LayoutManager? = null
+    var linearLayoutManager: LinearLayoutManager? = null
 
     private lateinit var filmeAdapter: FilmeAdapter
 
@@ -54,11 +55,12 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rvPopulares.adapter = filmeAdapter
 
-        binding.rvPopulares.layoutManager = LinearLayoutManager(
-        this,
-        LinearLayoutManager.VERTICAL,
-        false
+        linearLayoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
         )
+        binding.rvPopulares.layoutManager = linearLayoutManager
 
         //binding.rvPopulares.addOnScrollListener( ScrollCustomizado() )
         // object =>  Classe Anônima", herda de OnScrollListener
@@ -66,14 +68,16 @@ class MainActivity : AppCompatActivity() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
+                val ultimoItemVisivel = linearLayoutManager?.findLastVisibleItemPosition()
+                val totalItens = linearLayoutManager?.itemCount
+                Log.i("recycler_test", "Ultimo: $ultimoItemVisivel Total $totalItens")
+
                 /*Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
                 if (dy > 0) { //
                     binding.fabAdicionar.hide()
                 } else {
                     binding.fabAdicionar.show()
                 }*/
-
-
             }
             
         } )

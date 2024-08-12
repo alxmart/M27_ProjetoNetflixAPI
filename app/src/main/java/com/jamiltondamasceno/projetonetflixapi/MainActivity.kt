@@ -68,10 +68,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
+                /*
+                => HIDING FAB on LAST ITEM:
+                ==============================
                 val ultimoItemVisivel = linearLayoutManager?.findLastVisibleItemPosition()
-
                 val totalItens = linearLayoutManager?.itemCount
-
                 //Log.i("recycler_test", "Ultimo: $ultimoItemVisivel Total $totalItens")
                 if (ultimoItemVisivel != null && totalItens != null) {
                     if (totalItens - 1 == ultimoItemVisivel) {//chegou no último item
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     } else {//não chegou no último item
                         binding.fabAdicionar.show()
                     }
-                }
+                }*/
 
                 /*Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
                 if (dy > 0) { //
@@ -88,9 +89,7 @@ class MainActivity : AppCompatActivity() {
                     binding.fabAdicionar.show()
                 }*/
             }
-
         })
-
     }
 
     /*class ScrollCustomizado : OnScrollListener() {

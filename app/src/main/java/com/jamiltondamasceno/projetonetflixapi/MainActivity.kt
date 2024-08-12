@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun inicializarViews() {
 
-        filmeAdapter = FilmeAdapter{ filme ->
+        filmeAdapter = FilmeAdapter { filme ->
             val intent = Intent(this, DetalhesActivity::class.java)
             intent.putExtra("filme", filme)
             startActivity(intent)
@@ -69,8 +69,17 @@ class MainActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 val ultimoItemVisivel = linearLayoutManager?.findLastVisibleItemPosition()
+
                 val totalItens = linearLayoutManager?.itemCount
-                Log.i("recycler_test", "Ultimo: $ultimoItemVisivel Total $totalItens")
+
+                //Log.i("recycler_test", "Ultimo: $ultimoItemVisivel Total $totalItens")
+                if (ultimoItemVisivel != null && totalItens != null) {
+                    if (totalItens - 1 == ultimoItemVisivel) {//chegou no último item
+                        binding.fabAdicionar.hide()
+                    } else {//não chegou no último item
+                        binding.fabAdicionar.show()
+                    }
+                }
 
                 /*Log.i("recycler_test", "onScrolled: dx: $dx, dy: $dy")
                 if (dy > 0) { //
@@ -79,9 +88,9 @@ class MainActivity : AppCompatActivity() {
                     binding.fabAdicionar.show()
                 }*/
             }
-            
-        } )
-        
+
+        })
+
     }
 
     /*class ScrollCustomizado : OnScrollListener() {
@@ -119,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     if (listaFilmes != null && listaFilmes.isNotEmpty()) {
 
                         withContext(Dispatchers.Main) {
-                            filmeAdapter.adicionarLista( listaFilmes )
+                            filmeAdapter.adicionarLista(listaFilmes)
                         }
 
 

@@ -13,6 +13,8 @@ import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeResposta
+import com.jamiltondamasceno.projetonetflixapi.model.Genero
+import com.jamiltondamasceno.projetonetflixapi.model.Usuario
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +46,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         inicializarViews()
+
+        // Preciso ter várias instâncias
+        //===========================================
+        /*val genero1 = Genero(1, "Comédia")
+        val genero2 = Genero(2, "Ação")
+        Log.i("api_filme","genero1: $genero1 - genero2: $genero2")*/
+
+       /* val usuario1 = Usuario()
+        usuario1.nome = "Homer"
+
+        val usuario2 = Usuario()
+        usuario2.nome = "Lisa"
+        // Uma única instância. Ex. B.D. , Retrofit
+        //val retro = RetrofitSingleton.APIGO
+        Log.i("api_filme","retrofit: $retro")
+        //Log.i("api_filme","genero1: $genero1 - genero2: $genero2")
+        Log.i("api_filme","usuario1: $usuario1 - usuario2: $usuario2")
+*/
     }
 
     private fun inicializarViews() {

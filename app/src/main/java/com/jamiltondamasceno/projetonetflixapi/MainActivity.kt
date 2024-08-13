@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
@@ -24,8 +23,8 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+    private var paginaAtual = 1
     private val TAG = "info_filme"
-
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -36,8 +35,9 @@ class MainActivity : AppCompatActivity() {
 
     var jobFilmeRecente: Job? = null
     var jobFilmesPopulares: Job? = null
-    var linearLayoutManager: LinearLayoutManager? = null
 
+    //var linearLayoutManager: LinearLayoutManager? = null
+    var gridLayoutManager: GridLayoutManager? = null
     private lateinit var filmeAdapter: FilmeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,18 +55,42 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rvPopulares.adapter = filmeAdapter
 
-        linearLayoutManager = LinearLayoutManager(
+        gridLayoutManager = GridLayoutManager(
+            this,
+            2
+        )
+
+        /*linearLayoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
             false
-        )
-        binding.rvPopulares.layoutManager = linearLayoutManager
+        )*/
+
+        //binding.rvPopulares.layoutManager = linearLayoutManager
 
         //binding.rvPopulares.addOnScrollListener( ScrollCustomizado() )
         // object =>  Classe Anônima", herda de OnScrollListener
+
+        binding.rvPopulares.layoutManager = gridLayoutManager
+
         binding.rvPopulares.addOnScrollListener(object : OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                val podeDescerVerticalmente = recyclerView.canScrollVertically(1)
+                // 1) Chegar ao final da lista
+                //if ( podeDescerVerticalmente == false ) {
+                if ( !podeDescerVerticalmente ) {  // Não NÃO PUDER descer
+                    // Carregar mais 20 itens
+                    Log.i("recycler_api", "paginaAtual: $paginaAtual")
+                    recuperarFilmesPopularesProximaPagina()
+                    //binding.fabAdicionar.show()
+                }
+                /*} else {
+                    binding.fabAdicionar.hide()
+                }*/
+
+                //Log.i("recycler_api", "podeDescerVerticalmente: $podeDescerVerticalmente")
 
                 /*
                 => HIDING FAB on LAST ITEM:
@@ -97,28 +121,33 @@ class MainActivity : AppCompatActivity() {
         }        
     }*/
 
-
     override fun onStart() {
         super.onStart()
         recuperarFilmeRecente()
         recuperarFilmesPopulares()
     }
 
-    private fun recuperarFilmesPopulares() {
+    private fun recuperarFilmesPopularesProximaPagina() {
+        if (paginaAtual < 1000) {
+            paginaAtual++
+            recuperarFilmesPopulares(paginaAtual)
+        }
+    }
+
+    private fun recuperarFilmesPopulares(pagina: Int = 1) {
 
         jobFilmesPopulares = CoroutineScope(Dispatchers.IO).launch {
 
             var resposta: Response<FilmeResposta>? = null
 
             try {
-                resposta = filmeAPI.recuperarFilmespopulares()
+                resposta = filmeAPI.recuperarFilmespopulares(pagina)
             } catch (e: Exception) {
                 e.printStackTrace()
                 exibirMensagem("Erro ao fazer a requisição")
             }
 
             if (resposta != null) {
-
                 if (resposta.isSuccessful) {
 
                     val filmeResposta = resposta.body()
@@ -129,7 +158,6 @@ class MainActivity : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             filmeAdapter.adicionarLista(listaFilmes)
                         }
-
 
                         /*Log.i("filmes_api", "Lista filmes:")
                         listaFilmes.forEach { filme ->
@@ -154,14 +182,12 @@ class MainActivity : AppCompatActivity() {
 
             try {
                 resposta = filmeAPI.recuperarFilmeRecente()
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 exibirMensagem("Erro ao fazer a requisição")
             }
 
             if (resposta != null) {
-
                 if (resposta.isSuccessful) {
 
                     val filmeRecente = resposta.body()

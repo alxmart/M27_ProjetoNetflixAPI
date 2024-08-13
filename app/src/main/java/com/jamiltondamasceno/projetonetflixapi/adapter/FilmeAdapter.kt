@@ -12,10 +12,10 @@ class FilmeAdapter(
     val onClick: (Filme) -> Unit
 ) : RecyclerView.Adapter<FilmeAdapter.FilmeViewHolder>() {
 
-    private var listaFilmes: List<Filme> = emptyList()
+    private var listaFilmes = mutableListOf<Filme>()
 
     fun adicionarLista(lista: List<Filme>) {
-        this.listaFilmes = lista
+        this.listaFilmes.addAll( lista ) // 20 + 20 + 20...
         notifyDataSetChanged()
     }
 
@@ -36,12 +36,10 @@ class FilmeAdapter(
 
                 binding.textTitulo.text = filme.title
                 binding.clItem.setOnClickListener {
-
                     onClick(filme)
                 }
 
             }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmeViewHolder {
@@ -49,23 +47,18 @@ class FilmeAdapter(
         val  layoutInflater = LayoutInflater.from(parent.context)
 
         val binding = ItemFilmeBinding.inflate(
-            layoutInflater, parent, false)
-
+            layoutInflater, parent, false
+        )
         return FilmeViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: FilmeViewHolder, position: Int) {
-
         val filme = listaFilmes[position]
         holder.bind( filme )
-
-
     }
 
     override fun getItemCount(): Int {
         return listaFilmes.size
     }
-
 
 }

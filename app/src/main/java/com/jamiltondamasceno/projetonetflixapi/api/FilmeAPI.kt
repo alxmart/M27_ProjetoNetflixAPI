@@ -19,10 +19,13 @@ interface FilmeAPI {
     // Interceptor:  ?api_key=01
 
 
-    @GET("movie/latest?api_key=${RetrofitService.APIGO}")
+    //@GET("movie/latest?api_key=${RetrofitService.APIGO}")
+    // Usando Interceptor: ( Ver classe AuthInterceptor )
+    @GET("movie/latest")
     suspend fun recuperarFilmeRecente(): Response<FilmeRecente>
 
-    @GET("movie/popular?api_key=${RetrofitService.APIGO}")
+    // Usando Interceptor: ( Ver classe AuthInterceptor )
+    @GET("movie/popular")
     suspend fun recuperarFilmespopulares(
         @Query("page") pagina: Int
     ): Response<FilmeResposta>

@@ -18,7 +18,7 @@ object RetrofitService { // Singleton ("objeto único")
         .writeTimeout(10, TimeUnit.SECONDS)//Escrita/Salvando na API
         .readTimeout(20, TimeUnit.SECONDS) //Leitura/Recup.dados/lendo da API)
         //.connectTimeout(20, TimeUnit.SECONDS) //Tempo máximo de conexão- Opcional)
-        .addInterceptor(  )
+        .addInterceptor( AuthInterceptor() )
         .build()
 
     val retrofit = Retrofit.Builder()

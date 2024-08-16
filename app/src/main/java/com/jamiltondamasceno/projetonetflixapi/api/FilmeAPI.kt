@@ -9,6 +9,16 @@ import retrofit2.http.Query
 
 interface FilmeAPI {
 
+    // Rota completa com API KEY:
+    //=============================
+    //https://api.themoviedb.org/3/  +  movie/latest?api_key=01
+
+    // Usando o Interceptor:
+    //==============================
+    //https://api.themoviedb.org/3/  +  movie/latest
+    // Interceptor:  ?api_key=01
+
+
     @GET("movie/latest?api_key=${RetrofitService.APIGO}")
     suspend fun recuperarFilmeRecente(): Response<FilmeRecente>
 

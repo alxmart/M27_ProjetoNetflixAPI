@@ -28,4 +28,14 @@ object RetrofitService { // Singleton ("objeto único")
         .build()
 
     val filmeAPI = retrofit.create( FilmeAPI::class.java )
+
+    fun recuperarViaCEP() : ViaCepAPI {
+
+        return Retrofit.Builder()
+            .baseUrl("https://viacep.com.br/ws/")
+            .addConverterFactory( GsonConverterFactory.create() )
+            .build()
+            .create( ViaCepAPI::class.java )
+    }
+
 }

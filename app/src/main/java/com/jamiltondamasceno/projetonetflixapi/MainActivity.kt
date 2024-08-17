@@ -11,10 +11,9 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
+import com.jamiltondamasceno.projetonetflixapi.model.Endereco
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeResposta
-import com.jamiltondamasceno.projetonetflixapi.model.Genero
-import com.jamiltondamasceno.projetonetflixapi.model.Usuario
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         RetrofitService.filmeAPI
     }
 
+    private val viaCepAPI by lazy {
+        RetrofitService.recuperarViaCEP()
+    }
+
     var jobFilmeRecente: Job? = null
     var jobFilmesPopulares: Job? = null
 
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         inicializarViews()
+        recuperarEndereco()
 
         // Preciso ter várias instâncias
         //===========================================
@@ -53,17 +57,51 @@ class MainActivity : AppCompatActivity() {
         val genero2 = Genero(2, "Ação")
         Log.i("api_filme","genero1: $genero1 - genero2: $genero2")*/
 
-       /* val usuario1 = Usuario()
-        usuario1.nome = "Homer"
+        /* val usuario1 = Usuario()
+         usuario1.nome = "Homer"
 
-        val usuario2 = Usuario()
-        usuario2.nome = "Lisa"
-        // Uma única instância. Ex. B.D. , Retrofit
-        //val retro = RetrofitSingleton.APIGO
-        Log.i("api_filme","retrofit: $retro")
-        //Log.i("api_filme","genero1: $genero1 - genero2: $genero2")
-        Log.i("api_filme","usuario1: $usuario1 - usuario2: $usuario2")
-*/
+         val usuario2 = Usuario()
+         usuario2.nome = "Lisa"
+         // Uma única instância. Ex. B.D. , Retrofit
+         //val retro = RetrofitSingleton.APIGO
+         Log.i("api_filme","retrofit: $retro")
+         //Log.i("api_filme","genero1: $genero1 - genero2: $genero2")
+         Log.i("api_filme","usuario1: $usuario1 - usuario2: $usuario2")
+ */
+    }
+
+    private fun recuperarEndereco() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            var resposta: Response<Endereco>? = null
+
+            try {
+                resposta = viaCepAPI.recuperarEndereco()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                exibirMensagem("Erro ao fazer a requisição")
+            }
+
+            if (resposta != null) {
+                if (resposta.isSuccessful) {
+
+                    val endereco = resposta.body()
+
+                    if (endereco != null) {
+                        val logradouro = endereco.logradouro
+                        val bairro = endereco.bairro
+                        Log.i("viacep", "recuperarEndereco: $logradouro - $bairro ")
+                    }
+
+                } else {
+                    exibirMensagem("Problema ao fazer a requisição CÓDIGO: ${resposta.code()}")
+                }
+
+            } else {
+                exibirMensagem("Não foi possível fazer a requisição")
+            }
+        }
     }
 
     private fun inicializarViews() {
@@ -100,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 val podeDescerVerticalmente = recyclerView.canScrollVertically(1)
                 // 1) Chegar ao final da lista
                 //if ( podeDescerVerticalmente == false ) {
-                if ( !podeDescerVerticalmente ) {  // Não NÃO PUDER descer
+                if (!podeDescerVerticalmente) {  // Não NÃO PUDER descer
                     // Carregar mais 20 itens
                     Log.i("recycler_api", "paginaAtual: $paginaAtual")
                     recuperarFilmesPopularesProximaPagina()

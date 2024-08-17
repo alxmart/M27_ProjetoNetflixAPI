@@ -91,7 +91,10 @@ class MainActivity : AppCompatActivity() {
                     if (endereco != null) {
                         val logradouro = endereco.logradouro
                         val bairro = endereco.bairro
-                        Log.i("viacep", "recuperarEndereco: $logradouro - $bairro ")
+                        val complemento = endereco.complemento
+                        val localidade = endereco.localidade
+
+                        Log.i("viacep", "recuperarEndereco: $logradouro - $bairro - $complemento - $localidade ")
                     }
 
                 } else {

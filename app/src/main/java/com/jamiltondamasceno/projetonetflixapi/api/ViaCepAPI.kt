@@ -6,7 +6,8 @@ import retrofit2.http.GET
 
 interface ViaCepAPI {
 
-    @GET("01001000/json")
+    //@GET("01001000/json")
+    @GET("01001000/xml")
     suspend fun recuperarEndereco(): retrofit2.Response<Endereco>
 
 }

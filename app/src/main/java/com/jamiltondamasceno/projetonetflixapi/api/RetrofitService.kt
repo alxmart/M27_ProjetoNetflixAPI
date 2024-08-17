@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitService { // Singleton ("objeto único")
@@ -33,7 +34,8 @@ object RetrofitService { // Singleton ("objeto único")
 
         return Retrofit.Builder()
             .baseUrl("https://viacep.com.br/ws/")
-            .addConverterFactory( GsonConverterFactory.create() )
+            //.addConverterFactory( GsonConverterFactory.create() )
+            .addConverterFactory( SimpleXmlConverterFactory.create() )
             .build()
             .create( ViaCepAPI::class.java )
     }

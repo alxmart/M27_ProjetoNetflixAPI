@@ -31,6 +31,10 @@ object RetrofitService { // Singleton ("objeto único")
 
     val filmeAPI = retrofit.create( FilmeAPI::class.java )
 
+    fun <T> recuperarAPI( classe: Class<T> ) : T {
+        return retrofit.create( classe )
+    }
+
     fun recuperarViaCEP() : ViaCepAPI {
 
         return Retrofit.Builder()

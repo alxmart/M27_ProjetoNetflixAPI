@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.jamiltondamasceno.projetonetflixapi.adapter.FilmeAdapter
+import com.jamiltondamasceno.projetonetflixapi.api.FilmeAPI
 import com.jamiltondamasceno.projetonetflixapi.api.RetrofitService
+import com.jamiltondamasceno.projetonetflixapi.api.ViaCepAPI
 import com.jamiltondamasceno.projetonetflixapi.databinding.ActivityMainBinding
 import com.jamiltondamasceno.projetonetflixapi.model.Endereco
 import com.jamiltondamasceno.projetonetflixapi.model.FilmeRecente
@@ -31,11 +33,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val filmeAPI by lazy {
-        RetrofitService.filmeAPI
+        //RetrofitService.filmeAPI
+        RetrofitService.recuperarAPI( FilmeAPI::class.java )
     }
 
     private val viaCepAPI by lazy {
         RetrofitService.recuperarViaCEP()
+        //RetrofitService.recuperarAPI( ViaCepAPI::class.java )
     }
 
     var jobFilmeRecente: Job? = null

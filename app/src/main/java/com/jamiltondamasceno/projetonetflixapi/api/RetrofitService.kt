@@ -13,6 +13,7 @@ object RetrofitService { // Singleton ("objeto único")
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val BASE_URL_IMAGEM = "https://image.tmdb.org/t/p/"
     const val APIGO = "8757e6fe8d068d87174a9fd7d132912a"
+    const val TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzU3ZTZmZThkMDY4ZDg3MTc0YTlmZDdkMTMyOTEyYSIsIm5iZiI6MTcyNDE0OTE3My43NjI5OTIsInN1YiI6IjY2ODZiNmUwOGM2ZmI0YTE1NDg1NTNmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jW9vRGkYpbhOpvQ0GjMICcPyBdORGhRpRz9jgUIEpE8"
 
     // Config para o Interceptor:
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()

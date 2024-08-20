@@ -12,15 +12,27 @@ class AuthInterceptor : Interceptor {
 
         // 2) Alterar URL ou Rota da requisição
         //https://api.themoviedb.org/3/  +  movie/latest
-        val urlAtual = chain.request().url()
+
+        /*val urlAtual = chain.request().url()
         val novaUrl = urlAtual.newBuilder()
-            novaUrl.addQueryParameter("api_key", RetrofitService.APIGO)
+        novaUrl.addQueryParameter(
+        "api_key",
+        RetrofitService.APIGO)
             .build()
 
         // 3) Configurar nova URL na requisição
-        construtorRequisicao.url(novaUrl.build())
+        construtorRequisicao.url(novaUrl.build())*/
 
-        return chain.proceed(construtorRequisicao.build())//Response
+        // Utilizando BEARER TOKEN:
+        val requisicao = construtorRequisicao.addHeader(
+            "Authorization", "Bearer ${RetrofitService.TOKEN}"
+        ).build()
+         // .addHeader("", "")
+
+        //return chain.proceed(construtorRequisicao.build())//Response
+
+        // Usando o BEARER TOKEN:
+        return chain.proceed(requisicao)//Response
     }
 
 
